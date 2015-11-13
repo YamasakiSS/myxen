@@ -110,4 +110,12 @@ extern int
 arch_compat_vcpu_op(
     int cmd, struct vcpu *v, XEN_GUEST_HANDLE_PARAM(void) arg);
 
+extern void
+do_set_ple_count(
+	unsigned int);
+
+extern int
+do_get_ple_count(
+	void);
+
 #endif /* __ASM_X86_HYPERCALL_H__ */

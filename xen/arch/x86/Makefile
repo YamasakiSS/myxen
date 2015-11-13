@@ -33,6 +33,7 @@ obj-y += ioport_emulate.o
 obj-y += irq.o
 obj-y += microcode_amd.o
 obj-y += microcode_intel.o
+obj-y += ple_count.o
 # This must come after the vendor specific files.
 obj-y += microcode.o
 obj-y += mm.o
