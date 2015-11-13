@@ -3143,6 +3143,7 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
     case EXIT_REASON_PAUSE_INSTRUCTION:
         perfc_incr(pauseloop_exits);
         do_sched_op_compat(SCHEDOP_yield, 0);
+	ple_count++;
         break;
 
     case EXIT_REASON_XSETBV:
