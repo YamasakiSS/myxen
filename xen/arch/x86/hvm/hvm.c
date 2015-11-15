@@ -4810,6 +4810,8 @@ static hvm_hypercall_t *const hvm_hypercall64_table[NR_hypercalls] = {
     HYPERCALL(sysctl),
     HYPERCALL(domctl),
     HYPERCALL(tmem_op),
+    HYPERCALL(set_ple_count),
+    HYPERCALL(get_ple_count),
     [ __HYPERVISOR_arch_1 ] = (hvm_hypercall_t *)paging_domctl_continuation
 };
 
@@ -4831,6 +4833,8 @@ static hvm_hypercall_t *const hvm_hypercall32_table[NR_hypercalls] = {
     HYPERCALL(sysctl),
     HYPERCALL(domctl),
     HYPERCALL(tmem_op),
+    HYPERCALL(set_ple_count),
+    HYPERCALL(get_ple_count),
     [ __HYPERVISOR_arch_1 ] = (hvm_hypercall_t *)paging_domctl_continuation
 };
 
