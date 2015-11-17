@@ -112,9 +112,9 @@ arch_compat_vcpu_op(
 
 extern void
 do_set_ple_count(
-	unsigned int);
+	unsigned long long);
 
-extern int
+extern unsigned long long 
 do_get_ple_count(
 	void);
 

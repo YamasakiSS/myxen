@@ -61,7 +61,7 @@ boolean_param("apicv", opt_apicv_enabled);
  */
 static unsigned int __read_mostly ple_gap = 128;
 integer_param("ple_gap", ple_gap);
-static unsigned int __read_mostly ple_window = 4096;
+static unsigned int __read_mostly ple_window = 400096;
 integer_param("ple_window", ple_window);
 
 /* Dynamic (run-time adjusted) execution control flags. */
