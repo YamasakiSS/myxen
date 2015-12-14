@@ -60,8 +60,11 @@ boolean_param("apicv", opt_apicv_enabled);
  * refer SDM volume 3b section 21.6.13 & 22.1.3.
  */
 static unsigned int __read_mostly ple_gap = 128;
+//static unsigned int __read_mostly ple_gap = 32; //add by Yamasaki
 integer_param("ple_gap", ple_gap);
-static unsigned int __read_mostly ple_window = 400096;
+//static unsigned long __read_mostly ple_window = 100000000;  //add by Yamasaki
+static unsigned long __read_mostly ple_window = 512;  //add by Yamasaki
+//static unsigned int __read_mostly ple_window = 4096;  // default
 integer_param("ple_window", ple_window);
 
 /* Dynamic (run-time adjusted) execution control flags. */
