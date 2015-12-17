@@ -2628,6 +2628,12 @@ static int vmx_handle_apic_write(void)
     return vlapic_apicv_write(current, exit_qualification & 0xfff);
 }
 
+// add by yamasaki
+static void vmx_write_ple_table(int ip, int size){
+	size++;	
+	ple_table[size].ip = ip;	
+}
+
 /*
  * When "Virtual Interrupt Delivery" is enabled, this function is used
  * to handle EOI-induced VM exit
@@ -3141,6 +3147,8 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
         break;
 
     case EXIT_REASON_PAUSE_INSTRUCTION:
+	if(ple_table_size < 1000)
+		vmx_write_ple_table(regs->eip, ple_table_size);
         perfc_incr(pauseloop_exits);
         do_sched_op_compat(SCHEDOP_yield, 0);
 	ple_count++;
@@ -3231,6 +3239,7 @@ void vmx_vmenter_helper(const struct cpu_user_regs *regs)
     __vmwrite(GUEST_RSP,    regs->rsp);
     __vmwrite(GUEST_RFLAGS, regs->rflags | X86_EFLAGS_MBS);
 }
+
 
 /*
  * Local variables:

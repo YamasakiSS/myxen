@@ -31,6 +31,13 @@ extern int  vmx_cpu_up(void);
 extern void vmx_cpu_down(void);
 extern void vmx_save_host_msrs(void);
 extern unsigned long long ple_count;
+extern int ple_table_size;
+
+struct ple_info {
+	int ip;
+};
+
+extern struct ple_info ple_table[1000];
 
 struct vmcs_struct {
     u32 vmcs_revision_id;
