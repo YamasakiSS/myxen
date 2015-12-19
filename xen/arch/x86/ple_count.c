@@ -37,6 +37,15 @@ unsigned long long do_get_ple_count(void){
 	return	ple_count;
 }
 
-struct ple_info *do_get_ple_table(void){
+unsigned long do_get_ple_table(void){
 	return ple_table;
+}
+
+unsigned long do_get_ple_elem(int index, int elem){
+	switch(elem){
+		case 1:
+			return ple_table[index].ip;
+		default:
+			return 0;
+	}
 }

@@ -118,8 +118,13 @@ extern unsigned long long
 do_get_ple_count(
 	void);
 
-extern struct ple_info
-*do_get_ple_table(
+extern unsigned long
+do_get_ple_table(
 	void);
+
+extern unsigned long
+do_get_ple_elem(
+	int,
+	int);
 
 #endif /* __ASM_X86_HYPERCALL_H__ */

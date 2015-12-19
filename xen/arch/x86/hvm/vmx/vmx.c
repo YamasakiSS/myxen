@@ -1,6 +1,5 @@
 /*
- * vmx.c: handling VMX architecture-related VM exits
- * Copyright (c) 2004, Intel Corporation.
+ * vmx.c: handling VMX architecture-related VM exits * Copyright (c) 2004, Intel Corporation.
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -2630,7 +2629,6 @@ static int vmx_handle_apic_write(void)
 
 // add by yamasaki
 static void vmx_write_ple_table(int ip, int size){
-	size++;	
 	ple_table[size].ip = ip;	
 }
 
@@ -3147,8 +3145,10 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
         break;
 
     case EXIT_REASON_PAUSE_INSTRUCTION:
-	if(ple_table_size < 1000)
+	if(ple_table_size < 1000){
 		vmx_write_ple_table(regs->eip, ple_table_size);
+		ple_table_size++;
+	}
         perfc_incr(pauseloop_exits);
         do_sched_op_compat(SCHEDOP_yield, 0);
 	ple_count++;
