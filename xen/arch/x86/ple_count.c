@@ -60,4 +60,6 @@ void do_reset_ple_table(void){
 		ple_table[i].ip = 0;
 		ple_table[i].time = 0;
 	}
+	ple_table_size = 0;
+	ple_count = 0;
 }
