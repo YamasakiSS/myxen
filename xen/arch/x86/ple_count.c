@@ -27,7 +27,9 @@
 unsigned long long ple_count = 0;
 int ple_table_size = 0;
 
-struct ple_info ple_table[1000];
+#define PLE_TABLE_SIZE 1000
+
+struct ple_info ple_table[PLE_TABLE_SIZE];
 
 void do_set_ple_count(unsigned long long num){
 	ple_count = num;
@@ -45,7 +47,17 @@ unsigned long do_get_ple_elem(int index, int elem){
 	switch(elem){
 		case 1:
 			return ple_table[index].ip;
+		case 2:
+			return ple_table[index].time;
 		default:
 			return 0;
+	}
+}
+
+void do_reset_ple_table(void){
+	int i = 0;
+	for(i = 0; i < PLE_TABLE_SIZE; i++){
+		ple_table[i].ip = 0;
+		ple_table[i].time = 0;
 	}
 }

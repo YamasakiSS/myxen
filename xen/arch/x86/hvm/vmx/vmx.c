@@ -2628,8 +2628,11 @@ static int vmx_handle_apic_write(void)
 }
 
 // add by yamasaki
-static void vmx_write_ple_table(int ip, int size){
+static void vmx_write_ple_table(unsigned long ip, int size){
+	unsigned long tsc;
+	rdtscl(tsc);
 	ple_table[size].ip = ip;	
+	ple_table[size].time = tsc;
 }
 
 /*

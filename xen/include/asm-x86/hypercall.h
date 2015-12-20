@@ -127,4 +127,8 @@ do_get_ple_elem(
 	int,
 	int);
 
+extern void
+do_reset_ple_table(
+	void);
+
 #endif /* __ASM_X86_HYPERCALL_H__ */

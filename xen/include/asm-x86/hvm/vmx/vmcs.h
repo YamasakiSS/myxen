@@ -34,7 +34,8 @@ extern unsigned long long ple_count;
 extern int ple_table_size;
 
 struct ple_info {
-	int ip;
+	unsigned long ip;
+	unsigned long time;
 };
 
 extern struct ple_info ple_table[1000];
