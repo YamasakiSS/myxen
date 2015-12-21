@@ -122,13 +122,13 @@ extern unsigned long
 do_get_ple_table(
 	void);
 
-extern unsigned long
+extern unsigned long long
 do_get_ple_elem(
 	int,
 	int);
 
 extern void
 do_reset_ple_table(
-	void);
+	int);
 
 #endif /* __ASM_X86_HYPERCALL_H__ */

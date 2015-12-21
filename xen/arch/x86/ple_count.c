@@ -26,6 +26,7 @@
 
 unsigned long long ple_count = 0;
 int ple_table_size = 0;
+int ple_table_mode = 1;
 
 #define PLE_TABLE_SIZE 1000
 
@@ -43,23 +44,27 @@ unsigned long do_get_ple_table(void){
 	return ple_table;
 }
 
-unsigned long do_get_ple_elem(int index, int elem){
+unsigned long long do_get_ple_elem(int index, int elem){
 	switch(elem){
 		case 1:
 			return ple_table[index].ip;
 		case 2:
 			return ple_table[index].time;
+		case 3:
+			return ple_table[index].count;
 		default:
 			return 0;
 	}
 }
 
-void do_reset_ple_table(void){
+void do_reset_ple_table(int num){
 	int i = 0;
 	for(i = 0; i < PLE_TABLE_SIZE; i++){
 		ple_table[i].ip = 0;
 		ple_table[i].time = 0;
+		ple_table[i].count = 0;
 	}
+	ple_table_mode = num;
 	ple_table_size = 0;
 	ple_count = 0;
 }

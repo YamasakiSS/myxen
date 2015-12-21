@@ -2628,11 +2628,29 @@ static int vmx_handle_apic_write(void)
 }
 
 // add by yamasaki
-static void vmx_write_ple_table(unsigned long ip, int size){
+static int vmx_write_ple_table(unsigned long ip, int size, int mode){
 	unsigned long tsc;
-	rdtscl(tsc);
-	ple_table[size].ip = ip;	
-	ple_table[size].time = tsc;
+	int i = 0;
+	if(mode == 1){
+		rdtscl(tsc);
+		ple_table[size].ip = ip;	
+		ple_table[size].time = tsc;
+		ple_table[size].count = 1;
+		return 1;
+	}else if(mode == 2){
+		for(i = 0; i < size; i++){
+			if(ple_table[i].ip == ip){
+				ple_table[i].count++;
+				return 0;
+			}
+		}
+		rdtscl(tsc);
+		ple_table[size].ip = ip;	
+		ple_table[size].time = tsc;
+		ple_table[size].count = 1;
+		return 1;
+	}
+	return 0;
 }
 
 /*
@@ -3149,8 +3167,11 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
 
     case EXIT_REASON_PAUSE_INSTRUCTION:
 	if(ple_table_size < 1000){
-		vmx_write_ple_table(regs->eip, ple_table_size);
-		ple_table_size++;
+		int reg;
+		reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode);
+		if(reg == 1){
+			ple_table_size++;
+		}
 	}
         perfc_incr(pauseloop_exits);
         do_sched_op_compat(SCHEDOP_yield, 0);

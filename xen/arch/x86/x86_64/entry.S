@@ -822,7 +822,7 @@ ENTRY(hypercall_args_table)
         .byte 0 /* do_get_ple_count     */  /* 40  add by Yamasaki */
         .byte 0 /* do_get_ple_table     */  /* 41  add by Yamasaki */
         .byte 2 /* do_get_ple_elem      */  /* 42  add by Yamasaki */
-        .byte 0 /* do_reset_ple_table   */  /* 43  add by Yamasaki */
+        .byte 1 /* do_reset_ple_table   */  /* 43  add by Yamasaki */
         .rept __HYPERVISOR_arch_0-(.-hypercall_args_table)
         .byte 0 /* do_ni_hypercall      */
         .endr

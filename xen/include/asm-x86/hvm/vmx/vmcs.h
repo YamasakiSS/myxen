@@ -32,10 +32,12 @@ extern void vmx_cpu_down(void);
 extern void vmx_save_host_msrs(void);
 extern unsigned long long ple_count;
 extern int ple_table_size;
+extern int ple_table_mode;
 
 struct ple_info {
 	unsigned long ip;
-	unsigned long time;
+	unsigned long long time;
+	unsigned long count;
 };
 
 extern struct ple_info ple_table[1000];
