@@ -47,10 +47,14 @@ unsigned long do_get_ple_table(void){
 unsigned long long do_get_ple_elem(int index, int elem){
 	switch(elem){
 		case 1:
-			return ple_table[index].ip;
+			return ple_table[index].vcpu_id;
 		case 2:
-			return ple_table[index].time;
+			return ple_table[index].dom_id;
 		case 3:
+			return ple_table[index].ip;
+		case 4:
+			return ple_table[index].time;
+		case 5:
 			return ple_table[index].count;
 		default:
 			return 0;
@@ -59,12 +63,18 @@ unsigned long long do_get_ple_elem(int index, int elem){
 
 void do_reset_ple_table(int num){
 	int i = 0;
-	for(i = 0; i < PLE_TABLE_SIZE; i++){
-		ple_table[i].ip = 0;
-		ple_table[i].time = 0;
-		ple_table[i].count = 0;
-	}
-	ple_table_mode = num;
-	ple_table_size = 0;
-	ple_count = 0;
+    if(num != 0){
+    	for(i = 0; i < PLE_TABLE_SIZE; i++){
+    		ple_table[i].vcpu_id = 0;
+    		ple_table[i].dom_id = 0;
+    		ple_table[i].ip = 0;
+    		ple_table[i].time = 0;
+    		ple_table[i].count = 0;
+    	}
+    	ple_table_mode = num;
+    	ple_table_size = 0;
+    	ple_count = 0;
+    }else{
+        ple_table_size = PLE_TABLE_SIZE;
+    } 
 }

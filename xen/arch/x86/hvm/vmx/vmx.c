@@ -2628,28 +2628,51 @@ static int vmx_handle_apic_write(void)
 }
 
 // add by yamasaki
-static int vmx_write_ple_table(unsigned long ip, int size, int mode){
+static int vmx_write_ple_table(unsigned long ip, int size, int mode, int vcpu_id, int domain_id){
 	unsigned long tsc;
 	int i = 0;
-	if(mode == 1){
-		rdtscl(tsc);
-		ple_table[size].ip = ip;	
-		ple_table[size].time = tsc;
-		ple_table[size].count = 1;
-		return 1;
-	}else if(mode == 2){
-		for(i = 0; i < size; i++){
-			if(ple_table[i].ip == ip){
-				ple_table[i].count++;
-				return 0;
-			}
-		}
-		rdtscl(tsc);
-		ple_table[size].ip = ip;	
-		ple_table[size].time = tsc;
-		ple_table[size].count = 1;
-		return 1;
-	}
+	rdtscl(tsc);
+	switch(mode){
+		case 1:
+		    ple_table[size].vcpu_id = vcpu_id;	
+		    ple_table[size].dom_id = domain_id;	
+		    ple_table[size].ip = ip;	
+		    ple_table[size].time = tsc;
+		    ple_table[size].count = 1;
+		    return 1;
+		    break;
+		case 2:
+		    for(i = 0; i < size; i++){
+		    	if(ple_table[i].ip == ip){
+		    		ple_table[i].count++;
+		    		return 0;
+		    	}
+		    }
+		    ple_table[size].vcpu_id = vcpu_id;	
+		    ple_table[size].dom_id = domain_id;	
+		    ple_table[size].ip = ip;	
+		    ple_table[size].time = tsc;
+		    ple_table[size].count = 1;
+		    return 1;
+            break;
+        case 3:	
+		    for(i = 0; i < size; i++){
+		    	if(ple_table[i].ip == ip && ple_table[i].vcpu_id == vcpu_id){
+		    		ple_table[i].count++;
+		    		return 0;
+		    	}
+    		}
+    		ple_table[size].vcpu_id = vcpu_id;	
+		    ple_table[size].dom_id = domain_id;	
+    		ple_table[size].ip = ip;	
+    		ple_table[size].time = tsc;
+    		ple_table[size].count = 1;
+    		return 1;
+            break;
+         default:
+            return 0;
+            break;
+	}	
 	return 0;
 }
 
@@ -3168,14 +3191,14 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
     case EXIT_REASON_PAUSE_INSTRUCTION:
 	if(ple_table_size < 1000){
 		int reg;
-		reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode);
+		reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
 		if(reg == 1){
 			ple_table_size++;
 		}
 	}
         perfc_incr(pauseloop_exits);
         do_sched_op_compat(SCHEDOP_yield, 0);
-	ple_count++;
+	    ple_count++;
         break;
 
     case EXIT_REASON_XSETBV:
