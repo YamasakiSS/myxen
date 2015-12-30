@@ -2629,7 +2629,7 @@ static int vmx_handle_apic_write(void)
 
 // add by yamasaki
 static int vmx_write_ple_table(unsigned long ip, int size, int mode, int vcpu_id, int domain_id){
-	unsigned long tsc;
+	unsigned long long tsc;
 	int i = 0;
 	rdtscl(tsc);
 	switch(mode){
