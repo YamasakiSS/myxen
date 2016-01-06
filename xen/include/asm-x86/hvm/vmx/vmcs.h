@@ -34,6 +34,8 @@ extern unsigned long long ple_count;
 extern int ple_table_size;
 extern int ple_table_mode;
 
+#define PLE_TABLE_SIZE 10000
+
 struct ple_info {
 	unsigned int vcpu_id;
 	unsigned int dom_id;
@@ -42,7 +44,7 @@ struct ple_info {
 	unsigned long count;
 };
 
-extern struct ple_info ple_table[1000];
+extern struct ple_info ple_table[];
 
 struct vmcs_struct {
     u32 vmcs_revision_id;

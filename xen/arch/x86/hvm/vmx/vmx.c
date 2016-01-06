@@ -2631,7 +2631,7 @@ static int vmx_handle_apic_write(void)
 static int vmx_write_ple_table(unsigned long ip, int size, int mode, int vcpu_id, int domain_id){
 	unsigned long long tsc;
 	int i = 0;
-	rdtscl(tsc);
+	rdtscll(tsc);
 	switch(mode){
 		case 1:
 		    ple_table[size].vcpu_id = vcpu_id;	
@@ -3189,7 +3189,7 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
         break;
 
     case EXIT_REASON_PAUSE_INSTRUCTION:
-	if(ple_table_size < 1000){
+	if(ple_table_size < PLE_TABLE_SIZE){
 		int reg;
 		reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
 		if(reg == 1){

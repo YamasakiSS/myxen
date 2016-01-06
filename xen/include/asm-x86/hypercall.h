@@ -131,4 +131,8 @@ extern void
 do_reset_ple_table(
 	int);
 
+extern unsigned long long
+do_get_tsc_value(
+    void);
+
 #endif /* __ASM_X86_HYPERCALL_H__ */

@@ -28,8 +28,6 @@ unsigned long long ple_count = 0;
 int ple_table_size = 0;
 int ple_table_mode = 1;
 
-#define PLE_TABLE_SIZE 1000
-
 struct ple_info ple_table[PLE_TABLE_SIZE];
 
 void do_set_ple_count(unsigned long long num){
@@ -78,3 +76,10 @@ void do_reset_ple_table(int num){
         ple_table_size = PLE_TABLE_SIZE;
     } 
 }
+
+unsigned long long do_get_tsc_value(void){
+    unsigned long long value;
+    rdtscll(value);
+    return value;
+}
+

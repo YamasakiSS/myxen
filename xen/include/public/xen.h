@@ -107,7 +107,8 @@ DEFINE_XEN_GUEST_HANDLE(xen_ulong_t);
 #define __HYPERVISOR_get_ple_table        41 /* add by yamasaki */
 #define __HYPERVISOR_get_ple_elem         42 /* add by yamasaki */
 #define __HYPERVISOR_reset_ple_table      43 /* add by yamasaki */
-#define __HYPERVISOR_xc_reserved_op       44 /* reserved for XenClient */
+#define __HYPERVISOR_get_tsc_value        44 /* add by yamasaki */
+#define __HYPERVISOR_xc_reserved_op       45 /* reserved for XenClient */
 
 /* Architecture-specific hypercall definitions. */
 #define __HYPERVISOR_arch_0               48
