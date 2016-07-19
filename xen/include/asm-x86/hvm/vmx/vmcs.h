@@ -34,12 +34,12 @@ extern unsigned long long ple_count;
 extern int ple_table_size;
 extern int ple_table_mode;
 
-#define PLE_TABLE_SIZE 10000
+#define PLE_TABLE_SIZE 30000
 
 struct ple_info {
 	unsigned int vcpu_id;
 	unsigned int dom_id;
-	unsigned long ip;
+	unsigned long long ip;
 	unsigned long long time;
 	unsigned long count;
 };

@@ -35,7 +35,7 @@ void do_set_ple_count(unsigned long long num){
 }
 
 unsigned long long do_get_ple_count(void){
-	return	ple_count;
+	return ple_count;
 }
 
 unsigned long do_get_ple_table(void){
