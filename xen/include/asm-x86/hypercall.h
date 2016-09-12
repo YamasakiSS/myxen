@@ -135,4 +135,7 @@ extern unsigned long long
 do_get_tsc_value(
     void);
 
+extern void
+do_set_ple_sched(
+    int);
 #endif /* __ASM_X86_HYPERCALL_H__ */

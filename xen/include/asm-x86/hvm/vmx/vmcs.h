@@ -33,6 +33,7 @@ extern void vmx_save_host_msrs(void);
 extern unsigned long long ple_count;
 extern int ple_table_size;
 extern int ple_table_mode;
+extern int ple_sched;
 
 #define PLE_TABLE_SIZE 30000
 
