@@ -35,7 +35,7 @@ extern unsigned long long ple_table_size;
 extern int ple_table_mode;
 extern int ple_sched;
 
-#define PLE_TABLE_SIZE 30000
+#define PLE_TABLE_SIZE 300000
 
 struct ple_info {
 	unsigned int vcpu_id;

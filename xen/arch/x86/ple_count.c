@@ -26,7 +26,7 @@
 
 unsigned long long ple_count = 0;
 unsigned long long ple_table_size = 0;
-int ple_table_mode = 1;
+int ple_table_mode = 0;
 
 struct ple_info ple_table[PLE_TABLE_SIZE];
 
