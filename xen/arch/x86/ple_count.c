@@ -25,7 +25,7 @@
 
 
 unsigned long long ple_count = 0;
-int ple_table_size = 0;
+unsigned long long ple_table_size = 0;
 int ple_table_mode = 1;
 
 struct ple_info ple_table[PLE_TABLE_SIZE];
@@ -42,7 +42,7 @@ unsigned long do_get_ple_table(void){
 	return ple_table;
 }
 
-unsigned long long do_get_ple_elem(int index, int elem){
+unsigned long long do_get_ple_elem(unsigned long long index, int elem){
 	switch(elem){
 		case 1:
 			return ple_table[index].vcpu_id;
@@ -60,7 +60,7 @@ unsigned long long do_get_ple_elem(int index, int elem){
 }
 
 void do_reset_ple_table(int num){
-	int i = 0;
+	unsigned long long i = 0;
     if(num != 0){
     	for(i = 0; i < PLE_TABLE_SIZE; i++){
     		ple_table[i].vcpu_id = 0;

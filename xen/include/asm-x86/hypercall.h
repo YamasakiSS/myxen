@@ -124,7 +124,7 @@ do_get_ple_table(
 
 extern unsigned long long
 do_get_ple_elem(
-	int,
+	unsigned long long,
 	int);
 
 extern void

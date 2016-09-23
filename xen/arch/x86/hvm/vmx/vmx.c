@@ -2628,7 +2628,7 @@ static int vmx_handle_apic_write(void)
 }
 
 // add by yamasaki
-static int vmx_write_ple_table(unsigned long long ip, int size, int mode, int vcpu_id, int domain_id){
+static int vmx_write_ple_table(unsigned long long ip, unsigned long long size, int mode, int vcpu_id, int domain_id){
 	unsigned long long tsc;
 	int i = 0;
 	rdtscll(tsc);
