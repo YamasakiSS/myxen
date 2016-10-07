@@ -3190,6 +3190,7 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
         break;
 
     case EXIT_REASON_PAUSE_INSTRUCTION:
+        // commit test
         if(ple_sched == 1){
             if(ple_table_size < PLE_TABLE_SIZE){
                 reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
