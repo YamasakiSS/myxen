@@ -23,7 +23,7 @@
 #include <asm/psr.h>
 #include <asm/hvm/vmx/vmcs.h>
 
-int ple_sched = 1; //ple sched mode default = 1
+int ple_sched = 0; //ple sched mode default = 0
 
 void do_set_ple_sched(int sched){
     ple_sched = sched;

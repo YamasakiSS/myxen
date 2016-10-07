@@ -2692,6 +2692,7 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
     unsigned long exit_qualification, exit_reason, idtv_info, intr_info = 0;
     unsigned int vector = 0;
     struct vcpu *v = current;
+    int reg;
 
     __vmread(GUEST_RIP,    &regs->rip);
     __vmread(GUEST_RSP,    &regs->rsp);
@@ -3191,16 +3192,25 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
     case EXIT_REASON_PAUSE_INSTRUCTION:
         if(ple_sched == 1){
             if(ple_table_size < PLE_TABLE_SIZE){
-                int reg;
                 reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
                 if(reg == 1){
                     ple_table_size++;
                 }
             }
+            perfc_incr(pauseloop_exits);
+            do_sched_op_compat(SCHEDOP_ple_exit, 0);
+            //ple_count++;
+        }else{
+            if(ple_table_size < PLE_TABLE_SIZE){
+                reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
+                if(reg == 1){
+                    ple_table_size++;
+                }
+            }
+            perfc_incr(pauseloop_exits);
+            do_sched_op_compat(SCHEDOP_yield, 0);
+            ple_count++;
         }
-        perfc_incr(pauseloop_exits);
-        do_sched_op_compat(SCHEDOP_yield, 0);
-	    ple_count++;
         break;
 
     case EXIT_REASON_XSETBV:

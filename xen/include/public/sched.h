@@ -120,6 +120,8 @@
 #define SCHEDOP_watchdog    6
 /* ` } */
 
+#define SCHEDOP_ple_exit   7
+
 struct sched_shutdown {
     unsigned int reason; /* SHUTDOWN_* => enum sched_shutdown_reason */
 };

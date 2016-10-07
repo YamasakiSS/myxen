@@ -813,6 +813,21 @@ long vcpu_yield(void)
     return 0;
 }
 
+// add by yamasaki use in only PAUSE_LOOP_EXIT
+long vcpu_ple_exit(void)
+{
+    struct vcpu * v=current;
+    spinlock_t *lock = vcpu_schedule_lock_irq(v);
+
+    SCHED_OP(VCPU2OP(v), ple_exit, v);
+    vcpu_schedule_unlock_irq(lock, v);
+
+    //TRACE_2D(TRC_SCHED_YIELD, current->domain->domain_id, current->vcpu_id);
+    raise_softirq(SCHEDULE_SOFTIRQ);
+    return 0;
+}
+
+
 static void domain_watchdog_timeout(void *data)
 {
     struct domain *d = data;
@@ -908,6 +923,11 @@ long do_sched_op_compat(int cmd, unsigned long arg)
         TRACE_3D(TRC_SCHED_SHUTDOWN,
                  current->domain->domain_id, current->vcpu_id, arg);
         domain_shutdown(current->domain, (u8)arg);
+        break;
+    }
+    case SCHEDOP_ple_exit:
+    {
+        ret = vcpu_ple_exit();
         break;
     }
 

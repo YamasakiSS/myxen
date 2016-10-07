@@ -1013,6 +1013,16 @@ csched_vcpu_yield(const struct scheduler *ops, struct vcpu *vc)
     set_bit(CSCHED_FLAG_VCPU_YIELD, &svc->flags);
 }
 
+// add by yamasaki
+static void
+csched_vcpu_ple_exit(const struct scheduler *ops, struct vcpu *vc)
+{
+    struct csched_vcpu * const svc = CSCHED_VCPU(vc);
+
+    /* Let the scheduler know that this vcpu is trying to yield */
+    set_bit(CSCHED_FLAG_VCPU_YIELD, &svc->flags);
+}
+
 static int
 csched_dom_cntl(
     const struct scheduler *ops,
@@ -1958,6 +1968,8 @@ const struct scheduler sched_credit_def = {
     .sleep          = csched_vcpu_sleep,
     .wake           = csched_vcpu_wake,
     .yield          = csched_vcpu_yield,
+
+    .ple_exit       = csched_vcpu_ple_exit,
 
     .adjust         = csched_dom_cntl,
     .adjust_global  = csched_sys_cntl,

@@ -148,6 +148,8 @@ struct scheduler {
     void         (*yield)          (const struct scheduler *, struct vcpu *);
     void         (*context_saved)  (const struct scheduler *, struct vcpu *);
 
+    void         (*ple_exit)  (const struct scheduler *, struct vcpu *);
+
     struct task_slice (*do_schedule) (const struct scheduler *, s_time_t,
                                       bool_t tasklet_work_scheduled);
 
