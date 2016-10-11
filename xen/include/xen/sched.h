@@ -880,6 +880,7 @@ extern void dump_runq(unsigned char key);
 
 void arch_do_physinfo(xen_sysctl_physinfo_t *pi);
 
+
 #endif /* __SCHED_H__ */
 
 /*

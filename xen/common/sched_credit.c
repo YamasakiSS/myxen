@@ -1013,15 +1013,6 @@ csched_vcpu_yield(const struct scheduler *ops, struct vcpu *vc)
     set_bit(CSCHED_FLAG_VCPU_YIELD, &svc->flags);
 }
 
-// add by yamasaki
-static void
-csched_vcpu_ple_exit(const struct scheduler *ops, struct vcpu *vc)
-{
-    struct csched_vcpu * const svc = CSCHED_VCPU(vc);
-
-    /* Let the scheduler know that this vcpu is trying to yield */
-    set_bit(CSCHED_FLAG_VCPU_YIELD, &svc->flags);
-}
 
 static int
 csched_dom_cntl(
@@ -1075,6 +1066,25 @@ __csched_set_tslice(struct csched_private *prv, unsigned timeslice)
         prv->ticks_per_tslice = 1;
     prv->tick_period_us = prv->tslice_ms * 1000 / prv->ticks_per_tslice;
     prv->credits_per_tslice = CSCHED_CREDITS_PER_MSEC * prv->tslice_ms;
+}
+
+// add by yamasaki
+static void
+csched_vcpu_ple_exit(const struct scheduler *ops, struct vcpu *vc, unsigned long arg)
+{
+    struct csched_vcpu * const svc = CSCHED_VCPU(vc);
+    struct csched_private *prv = CSCHED_PRIV(ops);
+
+    if(arg == 1){
+        sched_credit_tslice_ms = 10;
+        __csched_set_tslice(prv, sched_credit_tslice_ms);
+    }else if(arg == 2){
+        sched_credit_tslice_ms = CSCHED_DEFAULT_TSLICE_MS;
+        __csched_set_tslice(prv, sched_credit_tslice_ms);
+    }
+
+    /* Let the scheduler know that this vcpu is trying to yield */
+    //set_bit(CSCHED_FLAG_VCPU_YIELD, &svc->flags);
 }
 
 static int
