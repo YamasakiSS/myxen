@@ -1076,7 +1076,8 @@ csched_vcpu_ple_exit(const struct scheduler *ops, struct vcpu *vc, unsigned long
     struct csched_private *prv = CSCHED_PRIV(ops);
 
     if(arg == 1){
-        sched_credit_tslice_ms = 10;
+        // sched_credit_tslice_ms = 0.01; // broken code
+        sched_credit_tslice_ms = 1;
         __csched_set_tslice(prv, sched_credit_tslice_ms);
     }else if(arg == 2){
         sched_credit_tslice_ms = CSCHED_DEFAULT_TSLICE_MS;

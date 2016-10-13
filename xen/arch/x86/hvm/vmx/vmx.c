@@ -57,6 +57,9 @@
 #include <asm/hvm/nestedhvm.h>
 #include <asm/event.h>
 #include <public/arch-x86/cpuid.h>
+#include <xen/spinlock.h>
+
+static DEFINE_SPINLOCK(ple_lock);
 
 static bool_t __initdata opt_force_ept;
 boolean_param("force-ept", opt_force_ept);
@@ -81,6 +84,7 @@ static int vmx_msr_write_intercept(unsigned int msr, uint64_t msr_content);
 static void vmx_invlpg_intercept(unsigned long vaddr);
 
 uint8_t __read_mostly posted_intr_vector;
+
 
 static int vmx_domain_initialise(struct domain *d)
 {
@@ -2692,7 +2696,9 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
     unsigned long exit_qualification, exit_reason, idtv_info, intr_info = 0;
     unsigned int vector = 0;
     struct vcpu *v = current;
+
     int reg;
+    // add by yamasaki
 
     __vmread(GUEST_RIP,    &regs->rip);
     __vmread(GUEST_RSP,    &regs->rsp);
@@ -3193,13 +3199,16 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
         // commit test
         if(ple_sched == 1){
             if(ple_table_size < PLE_TABLE_SIZE){
+                spin_lock(&ple_lock);
                 if(ple_table_size == 0){
                     do_sched_op_compat(SCHEDOP_ple_exit, 1);
                 }
+
                 reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
                 if(reg == 1){
                     ple_table_size++;
                 }
+                spin_unlock(&ple_lock);
             }else{
                 ple_sched = 0;
                 do_sched_op_compat(SCHEDOP_ple_exit, 2);
@@ -3212,10 +3221,12 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
                 do_sched_op_compat(SCHEDOP_ple_exit, 2);
             }
             if(ple_table_size < PLE_TABLE_SIZE){
+                spin_lock(&ple_lock);
                 reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
                 if(reg == 1){
                     ple_table_size++;
                 }
+                spin_unlock(&ple_lock);
             }
             perfc_incr(pauseloop_exits);
             do_sched_op_compat(SCHEDOP_yield, 0);
