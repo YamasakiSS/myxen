@@ -2673,6 +2673,15 @@ static int vmx_write_ple_table(unsigned long long ip, unsigned long long size, i
     		ple_table[size].count = 1;
     		return 1;
             break;
+		case 4:
+		    ple_table[size].vcpu_id = vcpu_id;	
+		    ple_table[size].dom_id = domain_id;	
+		    ple_table[size].ip = ip;	
+		    ple_table[size].time = tsc;
+		    ple_table[size].count = 1;
+            ple_table[size].runq = "0";
+		    return 1;
+		    break;
          default:
             return 0;
             break;

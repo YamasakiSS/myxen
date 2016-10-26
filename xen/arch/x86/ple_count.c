@@ -68,6 +68,7 @@ void do_reset_ple_table(int num){
     		ple_table[i].ip = 0;
     		ple_table[i].time = 0;
     		ple_table[i].count = 0;
+            ple_table[i].runq = NULL;
     	}
     	ple_table_mode = num;
     	ple_table_size = 0;

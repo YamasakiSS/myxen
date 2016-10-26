@@ -43,6 +43,7 @@ struct ple_info {
 	unsigned long long ip;
 	unsigned long long time;
 	unsigned long count;
+    char *runq;
 };
 
 extern struct ple_info ple_table[];
