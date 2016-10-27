@@ -2679,7 +2679,6 @@ static int vmx_write_ple_table(unsigned long long ip, unsigned long long size, i
 		    ple_table[size].ip = ip;	
 		    ple_table[size].time = tsc;
 		    ple_table[size].count = 1;
-            ple_table[size].runq = "0";
 		    return 1;
 		    break;
          default:

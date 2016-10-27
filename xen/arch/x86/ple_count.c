@@ -29,6 +29,7 @@ unsigned long long ple_table_size = 0;
 int ple_table_mode = 0;
 
 struct ple_info ple_table[PLE_TABLE_SIZE];
+struct runq_info runq_table[RUNQ_TABLE_SIZE];
 
 void do_set_ple_count(unsigned long long num){
 	ple_count = num;
@@ -68,7 +69,6 @@ void do_reset_ple_table(int num){
     		ple_table[i].ip = 0;
     		ple_table[i].time = 0;
     		ple_table[i].count = 0;
-            ple_table[i].runq = NULL;
     	}
     	ple_table_mode = num;
     	ple_table_size = 0;

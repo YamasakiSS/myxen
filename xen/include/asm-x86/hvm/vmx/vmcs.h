@@ -36,6 +36,9 @@ extern int ple_table_mode;
 extern int ple_sched;
 
 #define PLE_TABLE_SIZE 300000
+#define RUNQ_TABLE_SIZE 1000
+#define PLE_TABLE_PCPU_NUM 4
+#define PLE_TABLE_RUNQ_SIZE 3
 
 struct ple_info {
 	unsigned int vcpu_id;
@@ -43,10 +46,18 @@ struct ple_info {
 	unsigned long long ip;
 	unsigned long long time;
 	unsigned long count;
-    char *runq;
+};
+
+struct pcpu_runq {
+    unsigned int runq[PLE_TABLE_RUNQ_SIZE];
+};
+
+struct runq_info {
+    struct pcpu_runq cpu[PLE_TABLE_PCPU_NUM];
 };
 
 extern struct ple_info ple_table[];
+extern struct runq_info runq_table[];
 
 struct vmcs_struct {
     u32 vmcs_revision_id;
