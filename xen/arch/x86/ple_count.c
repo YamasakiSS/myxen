@@ -78,6 +78,17 @@ void do_reset_ple_table(int num){
     } 
 }
 
+void do_reset_runq_table(void){
+    unsigned long long i = 0, j = 0, k = 0;
+    for(i = 0; i < RUNQ_TABLE_SIZE; i++){
+        for(j = 0; j < PLE_TABLE_PCPU_NUM; j++){
+            for(k = 0; k < PLE_TABLE_RUNQ_SIZE; k++){
+                runq_table[i].cpu[j].runq[k] = 0;
+            }
+        }
+    }
+}
+
 unsigned long long do_get_tsc_value(void){
     unsigned long long value;
     rdtscll(value);

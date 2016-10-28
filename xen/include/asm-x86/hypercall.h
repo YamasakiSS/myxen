@@ -138,4 +138,8 @@ do_get_tsc_value(
 extern void
 do_set_ple_sched(
     int);
+
+extern void
+do_reset_runq_table(
+    void);
 #endif /* __ASM_X86_HYPERCALL_H__ */
