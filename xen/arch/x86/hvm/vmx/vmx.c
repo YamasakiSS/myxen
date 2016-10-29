@@ -3204,12 +3204,13 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
         break;
 
     case EXIT_REASON_PAUSE_INSTRUCTION:
-        // commit test
+        // if ple_sche == 1, time slice keep 30 ms but register cpu runq
         if(ple_sched == 1){
-            if(ple_table_size < PLE_TABLE_SIZE){
+            /* In case of time slice change
+            if(ple_table_size < ple_table_size){
                 spin_lock(&ple_lock);
                 if(ple_table_size == 0){
-                    do_sched_op_compat(SCHEDOP_ple_exit, 1);
+                    do_sched_op_compat(schedop_ple_exit, 1);
                 }
 
                 reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
@@ -3223,7 +3224,24 @@ void vmx_vmexit_handler(struct cpu_user_regs *regs)
             }
             perfc_incr(pauseloop_exits);
             do_sched_op_compat(SCHEDOP_yield, 0);
-            //ple_count++;
+            ple_count++;
+            */
+
+            // In case of runq resister (without time slice change)
+            if(ple_table_size == 0){
+                do_sched_op_compat(SCHEDOP_ple_exit, 2);
+            }
+            if(ple_table_size < PLE_TABLE_SIZE){
+                spin_lock(&ple_lock);
+                reg = vmx_write_ple_table(regs->eip, ple_table_size, ple_table_mode, v->vcpu_id, v->domain->domain_id);
+                if(reg == 1){
+                    ple_table_size++;
+                }
+                spin_unlock(&ple_lock);
+            }
+            perfc_incr(pauseloop_exits);
+            do_sched_op_compat(SCHEDOP_yield, 0);
+            ple_count++;
         }else{
             if(ple_table_size == 0){
                 do_sched_op_compat(SCHEDOP_ple_exit, 2);
