@@ -83,13 +83,13 @@ void do_reset_runq_table(void){
     for(i = 0; i < RUNQ_TABLE_SIZE; i++){
         for(j = 0; j < PLE_TABLE_PCPU_NUM; j++){
             for(k = 0; k < PLE_TABLE_RUNQ_SIZE; k++){
-                runq_table[i].cpu[j].runq[k] = 0;
+                runq_table[i].cpu[j].runq[k] = -1;
             }
         }
     }
 }
 
-unsigned int do_get_runq_elem(unsigned int index, unsigned int cpu_num, unsigned int elem){
+int do_get_runq_elem(unsigned int index, unsigned int cpu_num, unsigned int elem){
     return runq_table[index].cpu[cpu_num].runq[elem];
 }
 

@@ -49,7 +49,7 @@ struct ple_info {
 };
 
 struct pcpu_runq {
-    unsigned int runq[PLE_TABLE_RUNQ_SIZE];
+    int runq[PLE_TABLE_RUNQ_SIZE];
 };
 
 struct runq_info {
