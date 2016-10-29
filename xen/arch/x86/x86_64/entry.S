@@ -772,6 +772,7 @@ ENTRY(hypercall_table)
         .quad do_get_tsc_value  	/* 44  add by Yamasaki */
         .quad do_set_ple_sched  	/* 45  add by Yamasaki */
         .quad do_reset_runq_table  	/* 46  add by Yamasaki */
+        .quad do_get_runq_elem  	/* 47  add by Yamasaki */
         .rept __HYPERVISOR_arch_0-((.-hypercall_table)/8)
         .quad do_ni_hypercall
         .endr
@@ -829,6 +830,7 @@ ENTRY(hypercall_args_table)
         .byte 0 /* do_get_tsc_value     */  /* 44  add by Yamasaki */
         .byte 1 /* do_set_ple_sched     */  /* 45  add by Yamasaki */
         .byte 0 /* do_reset_runq_table  */  /* 46  add by Yamasaki */
+        .byte 3 /* do_get_runq_elem     */  /* 47  add by Yamasaki */
         .rept __HYPERVISOR_arch_0-(.-hypercall_args_table)
         .byte 0 /* do_ni_hypercall      */
         .endr

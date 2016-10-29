@@ -89,6 +89,10 @@ void do_reset_runq_table(void){
     }
 }
 
+unsigned int do_get_runq_elem(unsigned int index, unsigned int cpu_num, unsigned int elem){
+    return runq_table[index].cpu[cpu_num].runq[elem];
+}
+
 unsigned long long do_get_tsc_value(void){
     unsigned long long value;
     rdtscll(value);

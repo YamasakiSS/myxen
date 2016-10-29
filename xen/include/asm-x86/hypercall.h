@@ -142,4 +142,10 @@ do_set_ple_sched(
 extern void
 do_reset_runq_table(
     void);
+
+extern unsigned int
+do_get_runq_elem(
+    unsigned int index,
+    unsigned int cpu_num,
+    unsigned int elem);
 #endif /* __ASM_X86_HYPERCALL_H__ */
