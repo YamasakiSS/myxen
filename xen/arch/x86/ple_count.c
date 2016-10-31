@@ -27,7 +27,7 @@
 unsigned long long ple_count = 0;
 unsigned long long ple_table_size = 0;
 int ple_table_mode = 1;
-int ple_sched = 1;
+int runq_table_size = 0;
 
 struct ple_info ple_table[PLE_TABLE_SIZE];
 struct runq_info runq_table[RUNQ_TABLE_SIZE];
@@ -88,6 +88,7 @@ void do_reset_runq_table(void){
             }
         }
     }
+    runq_table_size = 0;
 }
 
 int do_get_runq_elem(unsigned int index, unsigned int cpu_num, unsigned int elem){

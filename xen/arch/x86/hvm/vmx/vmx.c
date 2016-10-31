@@ -2635,6 +2635,7 @@ static int vmx_handle_apic_write(void)
 static int vmx_write_ple_table(unsigned long long ip, unsigned long long size, int mode, int vcpu_id, int domain_id){
 	unsigned long long tsc;
 	int i = 0;
+    int runq_reg = 0;
 	rdtscll(tsc);
 	switch(mode){
 		case 1:
@@ -2679,6 +2680,12 @@ static int vmx_write_ple_table(unsigned long long ip, unsigned long long size, i
 		    ple_table[size].ip = ip;	
 		    ple_table[size].time = tsc;
 		    ple_table[size].count = 1;
+            if(runq_table_size < RUNQ_TABLE_SIZE){
+                runq_reg = vmx_write_runq_table(runq_table_size);
+                if(runq_reg == 1){
+                    runq_table_size++;
+                }
+            }
 		    return 1;
 		    break;
          default:

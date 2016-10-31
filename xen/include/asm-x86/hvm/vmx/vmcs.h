@@ -34,6 +34,7 @@ extern unsigned long long ple_count;
 extern unsigned long long ple_table_size;
 extern int ple_table_mode;
 extern int ple_sched;
+extern int runq_table_size;
 
 #define PLE_TABLE_SIZE 300000
 #define RUNQ_TABLE_SIZE 1000

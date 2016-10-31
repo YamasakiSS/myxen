@@ -1962,6 +1962,17 @@ static void csched_tick_resume(const struct scheduler *ops, unsigned int cpu)
             - now % MICROSECS(prv->tick_period_us) );
 }
 
+int vmx_write_runq_table(int size){
+    int pcpu_num = 0;
+    for(pcpu_num = 0; pcpu_num < 4; pcpu_num++){
+        const struct list_head * const runq = RUNQ(pcpu_num);
+        if(pcpu_num == 1){
+            runq_table[size].cpu[pcpu_num].runq[0] = 5;
+        }
+    }
+    return 1;
+}
+
 static struct csched_private _csched_priv;
 
 const struct scheduler sched_credit_def = {

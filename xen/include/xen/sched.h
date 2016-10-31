@@ -880,6 +880,8 @@ extern void dump_runq(unsigned char key);
 
 void arch_do_physinfo(xen_sysctl_physinfo_t *pi);
 
+//add by yamasaki
+extern int vmx_write_runq_table(int index);
 
 #endif /* __SCHED_H__ */
 
