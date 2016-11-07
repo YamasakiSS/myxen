@@ -1963,19 +1963,21 @@ static void csched_tick_resume(const struct scheduler *ops, unsigned int cpu)
 }
 
 int vmx_write_runq_table(int size){
-    int pcpu_num = 0, index = 0;
+    int pcpu_num = 0, index = 1;
     struct list_head *iter;
     for(pcpu_num = 2; pcpu_num < 6; pcpu_num++){
         const struct list_head * const runq = RUNQ(pcpu_num);
+        const struct csched_vcpu * const head_svc = CSCHED_VCPU(curr_on_cpu(pcpu_num));
+        runq_table[size].cpu[pcpu_num - 2].runq[0] = head_svc->vcpu->vcpu_id;
         list_for_each( iter, runq){
             const struct csched_vcpu * const iter_svc = __runq_elem(iter);
             runq_table[size].cpu[pcpu_num - 2].runq[index] = iter_svc->vcpu->vcpu_id;
             index++;
-            if(index == 3){
+            if(index == 4){
                 break;
             }
         }
-        index = 0;
+        index = 1;
     }
     return 1;
 }

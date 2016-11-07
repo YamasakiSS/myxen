@@ -39,7 +39,7 @@ extern int runq_table_size;
 #define PLE_TABLE_SIZE 300000
 #define RUNQ_TABLE_SIZE 30000
 #define PLE_TABLE_PCPU_NUM 4
-#define PLE_TABLE_RUNQ_SIZE 3
+#define PLE_TABLE_RUNQ_SIZE 4
 
 struct ple_info {
 	unsigned int vcpu_id;
